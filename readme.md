@@ -42,7 +42,6 @@ Before running the application, ensure you have the following dependencies:
 2. Install Dependencies:
     ```bash
     pip install -r requirements.txt
-Make sure you have ChromeDriver installed and available in your system's PATH. ChromeDriver is required for Selenium to function correctly with the Chrome browser.
 
 3. Set up your Gemini API Key:
 
@@ -79,13 +78,11 @@ The answers are generated using only the scraped information, ensuring that the 
 ## Acknowledgments
 
 - **Streamlit**: Used to build the interactive web interface.
-- **Selenium**: Used to scrape dynamic web pages by interacting with the browser.
 - **BeautifulSoup**: Used for parsing HTML content.
 - **Google Gemini AI**: Provides the AI model to process and generate answers based on the ingested content.
 
 ## Important Notes
 
-- If the application is running locally, ensure that **chromedriver** is installed and properly configured for Selenium to work.
 - The project uses the **Gemini API key**, which requires a valid API key. Ensure the key is set in the code for proper functionality.
 - The tool is designed to scrape the content of websites, and it is essential to adhere to web scraping best practices and legal considerations when using it.
 
