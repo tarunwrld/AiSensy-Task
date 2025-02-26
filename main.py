@@ -69,7 +69,7 @@ def main():
                     full_html_content = soup.prettify()
                     st.session_state.html_content = full_html_content
                     st.subheader("Extracted HTML Content:")
-                    st.code(full_html_content[:1000],language=None)  # Display the first 1000 characters
+                    st.text_area("HTML Content", full_html_content, height=400)  # Display the first 1000 characters
 
                     st.session_state.chat_session = model.start_chat(
                         history=[{
