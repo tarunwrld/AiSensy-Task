@@ -17,6 +17,11 @@ You can run the tool locally by following the steps in the "Installation" sectio
 3. **AI-based Q&A**: After scraping the content, users can ask questions, and the AI model will respond based on the ingested data.
 4. **Streamlit UI**: The user interface is built using Streamlit, offering a clean, minimalistic design for interaction.
 
+## Flaws
+1. Input url is input only one time if user have to enter another website should be refreshed.
+2. After Scrapping Question Answering appears at bottom.
+3. For large content api limit exceeds.
+
 ## Requirements
 Before running the application, ensure you have the following dependencies:
 
