@@ -16,6 +16,8 @@ generation_config = {
 model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
     generation_config=generation_config,
+    system_instruction="This is HTML content, follow the user input and give the output using parsed content.Output should be based on the HTML content provided by the user nothing else"
+
 )
 def scrape_website(url):
     try:
@@ -75,7 +77,7 @@ def main():
                         history=[{
                             "role": "user",
                             "parts": [
-                                "This is HTML content, follow the user input and give the output using parsed content:\n" + full_html_content
+                                full_html_content
                             ],
                         }]
                     )
