@@ -37,7 +37,7 @@ Before running the application, ensure you have the following dependencies:
 
 1. Clone Project:
     ```bash
-   git clone https://github.com/tarunwrld/](https://github.com/tarunwrld/AiSensy-Task
+   git clone https://github.com/tarunwrld/AiSensy-Task.git
 
 2. Install Dependencies:
     ```bash
