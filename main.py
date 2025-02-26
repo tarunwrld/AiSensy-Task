@@ -1,7 +1,7 @@
 import os
 import google.generativeai as genai
+import requests
 import streamlit as st
-from selenium import webdriver
 from bs4 import BeautifulSoup
 
 genai.configure(api_key=os.environ["AI_API_KEY"])
@@ -17,13 +17,18 @@ model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
     generation_config=generation_config,
 )
-def scrape_website(website):
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(options=options)  # Uses chromedriver from PATH
-    driver.get(website)
-    html = driver.page_source
-    driver.quit()
-    return html
+def scrape_website(url):
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
+        }
+
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
+        return soup.prettify() 
+    except requests.exceptions.RequestException as e:
+        return f"Error fetching page: {e}"
 
 st.set_page_config(
     page_title="AI Web Scraper",
@@ -51,20 +56,21 @@ def main():
     if page == "Home":
         with st.container():
             st.title("Website Scraping and AI Response Generation")
-            st.write("Enter the URL of the website you want to scrape and process.")
+            st.write("Enter the URL of the website you want to scrape and process or refresh to add new url.")
             if "html_content" not in st.session_state:
-                # Take the URL as input from the user
                 url = st.text_input("Enter the URL to scrape:")
+                button = st.button("Scrape")
 
-                if url:
+                if button:
                     st.write(f"Scraping the website: {url}")
+
                     html_content = scrape_website(url)
                     soup = BeautifulSoup(html_content, "html.parser")
                     full_html_content = soup.prettify()
-
                     st.session_state.html_content = full_html_content
                     st.subheader("Extracted HTML Content:")
-                    st.text(full_html_content[:1000])  # Display the first 1000 characters
+                    st.code(full_html_content[:1000],language=None)  # Display the first 1000 characters
+
                     st.session_state.chat_session = model.start_chat(
                         history=[{
                             "role": "user",
@@ -75,12 +81,18 @@ def main():
                     )
             if "html_content" in st.session_state:
                 input_message = st.text_input("Enter your question:")
+                button1 = st.button("Send")
 
-                if input_message:
+                if button1:
                     chat_session = st.session_state.chat_session
+
                     response = chat_session.send_message(input_message)
+
+
                     st.subheader("AI Response:")
-                    st.write(response.text)
+                    message = st.chat_message("assistant")
+                    message.write(response.text)
+                    # st.write(response.text)
 
 if __name__ == "__main__":
     main()
